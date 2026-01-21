@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports & Logs</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Vehicle Control</h2>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="resident.html">Residents & Vehicle</a></li>
+        <li><a href="visitor.html">Visitors</a></li>
+        <li><a href="reports.html" class="active">Reports</a></li>
+        <li><a href="login.html" onclick="logout()">Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <h1>Access Logs & Reports</h1>
+
+      <form id="filterForm" class="card-form">
+        <select id="filterType">
+          <option value="">All Types</option>
+          <option value="resident">Resident</option>
+          <option value="visitor">Visitor</option>
+        </select>
+        <select id="filterStatus">
+          <option value="">All Status</option>
+          <option value="granted">Granted</option>
+          <option value="denied">Denied</option>
+        </select>
+        <input type="date" id="startDate" />
+        <input type="date" id="endDate" />
+        <button type="submit">Filter</button>
+      </form>
+
+      <div class="card-table">
+        <table id="logsTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>UID</th>
+              <th>Plate</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/reports.js"></script>
+</body>
+</html>

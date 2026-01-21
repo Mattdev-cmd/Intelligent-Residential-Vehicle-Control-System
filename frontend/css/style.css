@@ -1,0 +1,176 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.auth-card {
+  background: #BAC5FE;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-card h2 {
+  text-align: center;
+  color: #333;
+}
+
+.auth-card input,
+.auth-card select {
+  margin: 10px 0;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.auth-card button {
+  padding: 12px;
+  background: #ffffff;
+  color: #2c3e50;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.auth-card button:hover {
+  background: #ecf0f1;
+}
+
+.auth-card p {
+  margin-top: 15px;
+  text-align: center;
+  color: #333;
+}
+
+/*Dashboard Style*/
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #BAC5FE;
+  padding: 20px;
+  color: #333;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+.scan-logs {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.scan-entry {
+  padding: 10px;
+  border-left: 5px solid gray;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+.scan-entry.granted {
+  border-color: green;
+  background-color: #e8f5e9;
+}
+
+.scan-entry.denied {
+  border-color: red;
+  background-color: #ffebee;
+}
+/*Residents Style*/
+
+.card-form {
+  background: #BAC5FE;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.card-form input {
+  flex: 1 1 45%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.card-form button {
+  padding: 12px 20px;
+  background: #ffffff;
+  color: #2c3e50;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  flex: 1 1 100%;
+}
+
+.card-table {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  overflow-x: auto;
+}
+
+.card-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.card-table th,
+.card-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}

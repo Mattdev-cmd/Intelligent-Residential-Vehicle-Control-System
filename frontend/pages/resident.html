@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resident Management</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Vehicle Control</h2>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="resident.html" class="active">Residents & Vehicle</a></li>
+        <li><a href="visitor.html">Visitors</a></li>
+        <li><a href="reports.html">Reports</a></li>
+        <li><a href="login.html" onclick="logout()">Logout</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1>Register Resident & Vehicle</h1>
+      <form id="residentForm" class="card-form">
+        <input type="text" id="name" placeholder="Full Name" required />
+        <input type="text" id="address" placeholder="Address" required />
+        <input type="text" id="contact" placeholder="Contact" required />
+        <input type="text" id="uid" placeholder="RFID UID" required />
+        <input type="text" id="plateNumber" placeholder="Plate Number" required />
+        <input type="text" id="model" placeholder="Vehicle Model" required />
+        <input type="text" id="color" placeholder="Vehicle Color" required />
+        <button type="submit">Register</button>
+      </form>
+
+      <h2>Registered Residents</h2>
+      <div class="card-table">
+        <table id="residentTable">
+          <thead>
+            <tr>
+              <th>Name</th> 
+              <th>UID</th>
+              <th>Plate</th>
+              <th>Model</th>
+              <th>Color</th>
+              <th>Contact</th>
+              <th>Address</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Filled by JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/resident.js"></script>
+</body>
+</html>

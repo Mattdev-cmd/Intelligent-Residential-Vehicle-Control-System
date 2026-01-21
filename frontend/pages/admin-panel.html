@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || user.role !== "admin") {
+      alert("Access denied: Admins only");
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <div class="container">
+    <aside class="sidebar">
+         <h2>System Admin</h2>
+            <ul>
+            <li><a href="#">Admin Panel</a></li>
+            <li><a href="login.html" onclick="logout()">Logout</a></li>
+            </ul>
+    </aside>
+
+
+    <main class="main-content">
+      <h1>Welcome, <span id="adminName">Admin</span></h1>
+<p>Manage system users below:</p>
+
+<form id="userForm" class="card-form">
+  <input type="text" id="newName" placeholder="Full Name" required />
+  <input type="email" id="newEmail" placeholder="Email" required />
+  <input type="password" id="newPassword" placeholder="Password" required />
+  <select id="newRole" required>
+    <option value="guard">Guard</option>
+    <option value="admin">Admin</option>
+  </select>
+  <button type="submit">Add User</button>
+</form>
+
+<h2>Registered Users</h2>
+<input type="text" id="searchBox" placeholder="Search by name or email..." />
+<table id="userTable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<h2>System Logs</h2>
+<table id="logTable">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Message</th>
+      <th>Actor</th>
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+
+    </main>
+  </div>
+
+ <script>
+  const userInfo = JSON.parse(localStorage.getItem("user"));
+  if (!user || user.role !== "admin") {
+    alert("Access denied: Admins only");
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("adminName").innerText = user.name;
+    fetchUsers();
+  }
+
+  async function fetchUsers() {
+    const res = await fetch("http://localhost:5000/api/users");
+    const users = await res.json();
+    const tbody = document.querySelector("#userTable tbody");
+    tbody.innerHTML = "";
+
+document.getElementById("searchBox").addEventListener("input", function () {
+  const searchTerm = this.value.toLowerCase();
+  const rows = document.querySelectorAll("#userTable tbody tr");
+
+  rows.forEach(row => {
+    const text = row.innerText.toLowerCase();
+    row.style.display = text.includes(searchTerm) ? "" : "none";
+  });
+});
+
+    users.forEach(u => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${u.name}</td>
+        <td>${u.email}</td>
+        <td>${u.role}</td>
+        <td>
+          <button onclick="deleteUser('${u.email}')">Delete</button>
+          <button onclick="editUser('${u.email}', '${u.name}', '${u.role}')">Edit</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+  let editingEmail = null;
+
+function editUser(email, name, role) {
+  editingEmail = email;
+  document.getElementById("newName").value = name;
+  document.getElementById("newEmail").value = email;
+  document.getElementById("newRole").value = role;
+  document.getElementById("newEmail").disabled = true;
+  document.getElementById("newPassword").disabled = true;
+  document.querySelector("#userForm button").innerText = "Update User";
+}
+
+
+  document.getElementById("userForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("newName").value;
+  const email = document.getElementById("newEmail").value;
+  const role = document.getElementById("newRole").value;
+
+  if (editingEmail) {
+    const res = await fetch(`http://localhost:5000/api/users/${editingEmail}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, role }),
+    });
+    const result = await res.json();
+    if (res.ok) {
+      alert("User updated!");
+      editingEmail = null;
+      document.querySelector("#userForm button").innerText = "Add User";
+      document.getElementById("newEmail").disabled = false;
+      document.getElementById("newPassword").disabled = false;
+      e.target.reset();
+      fetchUsers();
+    } else {
+      alert(result.error || "Update failed");
+    }
+  } else {
+    const password = document.getElementById("newPassword").value;
+    const res = await fetch("http://localhost:5000/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password, role }),
+    });
+    const result = await res.json();
+    if (res.ok) {
+      alert("User added!");
+      e.target.reset();
+      fetchUsers();
+    } else {
+      alert(result.error || "Failed to add user");
+    }
+  }
+});
+
+  async function deleteUser(email) {
+    if (!confirm("Are you sure?")) return;
+    const res = await fetch(`http://localhost:5000/api/users/${email}`, {
+      method: "DELETE",
+    });
+    const result = await res.json();
+    alert(result.msg || "User deleted");
+    fetchUsers();
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
+  }
+
+  async function fetchLogs() {
+  const res = await fetch("http://localhost:5000/api/logs");
+  const logs = await res.json();
+  const tbody = document.querySelector("#logTable tbody");
+  tbody.innerHTML = "";
+
+  logs.forEach(log => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${log.type}</td>
+      <td>${log.message}</td>
+      <td>${log.actor}</td>
+      <td>${new Date(log.timestamp).toLocaleString()}</td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+fetchLogs();
+
+</script>
+
+</body>
+</html>
